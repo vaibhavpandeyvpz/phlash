@@ -24,13 +24,13 @@ Usage
 $flash = new Phlash\ArrayFlash();
 
 /**
- * @desc These will available in current request
+ * @desc These will be available in current request
  */
 $flash->flashNow('danger', 'Error #1');
 $flash->flashNow('danger', 'Error #2');
 
 /**
- * @desc These will available in next request
+ * @desc These will be available in next request
  */
 $flash->flashLater('success', 'Success #3');
 $flash->flashLater('success', 'Success #4');

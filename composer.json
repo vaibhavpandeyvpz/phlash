@@ -1,8 +1,10 @@
 {
-  "authors": [{
-    "name": "Vaibhav Pandey",
-    "email": "contact@vaibhavpandey.com"
-  }],
+  "authors": [
+    {
+      "name": "Vaibhav Pandey",
+      "email": "contact@vaibhavpandey.com"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Phlash\\": "src/"
@@ -13,7 +15,7 @@
       "Phlash\\": "tests/"
     }
   },
-  "description": "Framework agnostic, flash messages service for use in any micro/full-stack framework.",
+  "description": "Package for flashing data now or later (in next request) for use in any micro/full-stack framework.",
   "homepage": "http://vaibhavpandeyvpz.github.io/phlash",
   "keywords": ["session", "flash"],
   "license": "MIT",

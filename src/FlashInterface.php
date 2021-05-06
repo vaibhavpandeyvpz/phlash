@@ -19,18 +19,20 @@ interface FlashInterface
 {
     /**
      * @param string $key
-     * @param string $message
+     * @param mixed $message
      */
     public function flashLater($key, $message);
 
     /**
      * @param string $key
-     * @param string $message
+     * @param mixed $message
      */
     public function flashNow($key, $message);
 
     /**
-     * @return array
+     * @param string|null $key
+     *
+     * @return array|mixed
      */
-    public function getMessages();
+    public function get($key = null);
 }

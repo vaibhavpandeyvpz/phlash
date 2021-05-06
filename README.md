@@ -1,12 +1,12 @@
 # vaibhavpandeyvpz/phlash
-Framework agnostic, flash messages service for use in any micro/full-stack framework.
+Package for flashing data now or later (in next request) for use with any micro/full-stack framework.
 
 [![Build status][build-status-image]][build-status-url]
 [![Code Coverage][code-coverage-image]][code-coverage-url]
 [![Latest Version][latest-version-image]][latest-version-url]
 [![Downloads][downloads-image]][downloads-url]
 [![PHP Version][php-version-image]][php-version-url]
-[![License][license-image]](LICENSE.md)
+[![License][license-image]](LICENSE)
 
 Install
 -------
@@ -16,32 +16,35 @@ composer require vaibhavpandeyvpz/phlash
 
 Usage
 -----
+
 ```php
 <?php
 
 $flash = new Phlash\ArrayFlash();
 
 /**
- * @desc These will be available in current request
+ * @desc These will be available in current request.
  */
-$flash->flashNow('danger', 'Error #1');
-$flash->flashNow('danger', 'Error #2');
+$flash->flashNow('messages', [
+    'Thank your for registering with us.' => 'success',
+]);
 
 /**
- * @desc These will be available in next request
+ * @desc These will be available in next request.
  */
-$flash->flashLater('success', 'Success #3');
-$flash->flashLater('success', 'Success #4');
+$flash->flashLater('errors', [
+    'name' => ['This field is required.'],
+]);
 
 /**
- * @desc Get all messages for the current + previous request
+ * @desc Get all (or by key) flashed data for the current + previous request.
  */
-$messages = $flash->getMessages();
+$messages = $flash->get() || $flash->get('messages');
 ```
 
 License
 -------
-See [LICENSE.md](LICENSE.md) file.
+See [LICENSE](LICENSE) file.
 
 [build-status-image]: https://img.shields.io/travis/vaibhavpandeyvpz/phlash.svg?style=flat-square
 [build-status-url]: https://travis-ci.org/vaibhavpandeyvpz/phlash

@@ -60,8 +60,8 @@ class ArrayFlash extends FlashAbstract
     /**
      * {@inheritdoc}
      */
-    public function getMessages()
+    public function get($key = null)
     {
-        return $this->storage['now'];
+        return empty($key) ? $this->storage['now'] : $this->storage['now'][$key];
     }
 }

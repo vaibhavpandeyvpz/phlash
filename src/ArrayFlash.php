@@ -5,8 +5,7 @@
  *
  * (c) Vaibhav Pandey <contact@vaibhavpandey.com>
  *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.md.
+ * This source file is subject to the MIT license that is bundled with this source code in the file LICENSE.
  */
 
 namespace Phlash;
@@ -48,13 +47,9 @@ class ArrayFlash extends FlashAbstract
     /**
      * {@inheritdoc}
      */
-    public function flash($bag, $key, $message)
+    public function flash($bag, $key, $data)
     {
-        if (isset($this->storage[$bag][$key])) {
-            $this->storage[$bag][$key][] = $message;
-        } else {
-            $this->storage[$bag][$key] = array($message);
-        }
+        $this->storage[$bag][$key] = $data;
     }
 
     /**
@@ -62,6 +57,9 @@ class ArrayFlash extends FlashAbstract
      */
     public function get($key = null)
     {
-        return empty($key) ? $this->storage['now'] : $this->storage['now'][$key];
+        if ($key) {
+            return array_key_exists($key, $this->storage['now']) ? $this->storage['now'][$key] : null;
+        }
+        return $this->storage['now'];
     }
 }

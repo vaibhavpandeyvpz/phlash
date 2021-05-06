@@ -5,8 +5,7 @@
  *
  * (c) Vaibhav Pandey <contact@vaibhavpandey.com>
  *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.md.
+ * This source file is subject to the MIT license that is bundled with this source code in the file LICENSE.
  */
 
 namespace Phlash;
@@ -32,7 +31,7 @@ interface FlashInterface
     /**
      * @param string|null $key
      *
-     * @return array|mixed
+     * @return array|mixed|null
      */
     public function get($key = null);
 }

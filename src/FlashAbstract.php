@@ -5,8 +5,7 @@
  *
  * (c) Vaibhav Pandey <contact@vaibhavpandey.com>
  *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.md.
+ * This source file is subject to the MIT license that is bundled with this source code in the file LICENSE.
  */
 
 namespace Phlash;
@@ -20,9 +19,9 @@ abstract class FlashAbstract implements FlashInterface
     /**
      * @param string $bag
      * @param string $key
-     * @param string $message
+     * @param string $data
      */
-    abstract protected function flash($bag, $key, $message);
+    abstract protected function flash($bag, $key, $data);
 
     /**
      * {@inheritdoc}

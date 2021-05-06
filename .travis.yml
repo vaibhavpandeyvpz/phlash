@@ -8,6 +8,10 @@ branches:
 cache:
     directories: $HOME/.composer/cache
 
+env:
+    global:
+        - XDEBUG_MODE=coverage
+
 install: travis_retry composer install --dev --no-interaction --prefer-dist
 
 language: php

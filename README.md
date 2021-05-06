@@ -8,8 +8,6 @@ Framework agnostic, flash messages service for use in any micro/full-stack frame
 [![PHP Version][php-version-image]][php-version-url]
 [![License][license-image]](LICENSE.md)
 
-[![SensioLabsInsight][insights-image]][insights-url]
-
 Install
 -------
 ```bash
@@ -56,5 +54,3 @@ See [LICENSE.md](LICENSE.md) file.
 [php-version-image]: http://img.shields.io/badge/php-5.3+-8892be.svg?style=flat-square
 [php-version-url]: https://packagist.org/packages/vaibhavpandeyvpz/phlash
 [license-image]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[insights-image]: https://insight.sensiolabs.com/projects/1306e1b3-53ac-4085-bd6a-8317b73ec80f/small.png
-[insights-url]: https://insight.sensiolabs.com/projects/1306e1b3-53ac-4085-bd6a-8317b73ec80f

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of vaibhavpandeyvpz/phlash package.
  *
@@ -11,31 +13,49 @@
 namespace Phlash;
 
 /**
- * Class FlashAbstract
- * @package Phlash
+ * Abstract class FlashAbstract
+ *
+ * Base implementation of FlashInterface that provides common functionality
+ * for flashing messages. Concrete implementations must implement the abstract
+ * flash() method to define how data is actually stored.
+ *
+ * @author Vaibhav Pandey <contact@vaibhavpandey.com>
  */
 abstract class FlashAbstract implements FlashInterface
 {
     /**
-     * @param string $bag
-     * @param string $key
-     * @param string $data
+     * Flash data to a specific bag.
+     *
+     * This method must be implemented by concrete classes to define the actual
+     * storage mechanism for flashed data.
+     *
+     * @param  FlashBag  $bag  The bag to store data in (NOW or LATER)
+     * @param  string  $key  The key to store the data under
+     * @param  mixed  $data  The data to store
      */
-    abstract protected function flash($bag, $key, $data);
+    abstract protected function flash(FlashBag $bag, string $key, mixed $data): void;
 
     /**
      * {@inheritdoc}
+     *
+     * @param  string  $key  The key to store the message under
+     * @param  mixed  $message  The message data to flash
      */
-    public function flashLater($key, $message)
+    #[\Override]
+    public function flashLater(string $key, mixed $message): void
     {
-        $this->flash('later', $key, $message);
+        $this->flash(FlashBag::LATER, $key, $message);
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @param  string  $key  The key to store the message under
+     * @param  mixed  $message  The message data to flash
      */
-    public function flashNow($key, $message)
+    #[\Override]
+    public function flashNow(string $key, mixed $message): void
     {
-        $this->flash('now', $key, $message);
+        $this->flash(FlashBag::NOW, $key, $message);
     }
 }

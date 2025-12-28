@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of vaibhavpandeyvpz/phlash package.
  *
@@ -12,54 +14,93 @@ namespace Phlash;
 
 /**
  * Class ArrayFlash
- * @package Phlash
+ *
+ * Concrete implementation of FlashInterface that stores flash messages in an array.
+ * By default, it uses the $_SESSION superglobal, but can accept a custom array
+ * reference for storage.
+ *
+ * On construction, messages from the "later" bag (from the previous request) are
+ * moved to the "now" bag, making them available in the current request. The "later"
+ * bag is then cleared for new messages.
+ *
+ * @author Vaibhav Pandey <contact@vaibhavpandey.com>
  */
-class ArrayFlash extends FlashAbstract
+final class ArrayFlash extends FlashAbstract
 {
-    const STORAGE_KEY = __NAMESPACE__;
+    /**
+     * The storage key used to namespace flash data within the storage array.
+     *
+     * @var string
+     */
+    final public const STORAGE_KEY = __NAMESPACE__;
 
     /**
-     * @var array
+     * Internal storage array containing flash messages.
+     *
+     * Structure: ['now' => ['key' => value, ...], 'later' => ['key' => value, ...]]
+     *
+     * @var array{now: array<string, mixed>, later: array<string, mixed>}
      */
-    protected $storage;
+    protected array $storage;
 
     /**
      * ArrayFlash constructor.
-     * @param array $storage
+     *
+     * Initializes the flash storage. If no storage is provided, defaults to $_SESSION.
+     * On construction, any messages in the "later" bag are moved to "now" (simulating
+     * the transition from previous request to current request), and "later" is cleared.
+     *
+     * @param  array<string, mixed>|null  $storage  Optional array reference for storage.
+     *                                              If null, uses $_SESSION. The array is
+     *                                              modified by reference.
      */
-    public function __construct(array &$storage = null)
+    public function __construct(?array &$storage = null)
     {
-        if (is_null($storage)) {
+        if ($storage === null) {
             $storage = &$_SESSION;
         }
-        if (empty($storage[self::STORAGE_KEY])) {
-            $storage[self::STORAGE_KEY] = array();
-        }
+        $storage[self::STORAGE_KEY] ??= [];
         $this->storage = &$storage[self::STORAGE_KEY];
-        if (isset($this->storage['later'])) {
-            $this->storage['now'] = $this->storage['later'];
-        } else {
-            $this->storage['now'] = array();
-        }
-        $this->storage['later'] = array();
+
+        $this->storage['now'] = $this->storage['later'] ?? [];
+        $this->storage['later'] = [];
     }
 
     /**
      * {@inheritdoc}
+     *
+     * Stores data in the specified bag (NOW or LATER) under the given key.
+     *
+     * @param  FlashBag  $bag  The bag to store data in (NOW or LATER)
+     * @param  string  $key  The key to store the data under
+     * @param  mixed  $data  The data to store
      */
-    public function flash($bag, $key, $data)
+    #[\Override]
+    protected function flash(FlashBag $bag, string $key, mixed $data): void
     {
-        $this->storage[$bag][$key] = $data;
+        $this->storage[$bag->value][$key] = $data;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * Retrieves flashed messages from the "now" bag. Messages that were flashed
+     * with flashLater() in the previous request are available here (they were
+     * moved from "later" to "now" during construction).
+     *
+     * @param  string|null  $key  Optional key to retrieve a specific message.
+     *                            If null, returns all messages from the "now" bag.
+     * @return array<string, mixed>|mixed|null Returns:
+     *                                         - array<string, mixed> when $key is null (all messages)
+     *                                         - mixed when $key is provided and exists (the message value)
+     *                                         - null when $key is provided but doesn't exist
      */
-    public function get($key = null)
+    #[\Override]
+    public function get(?string $key = null): mixed
     {
-        if ($key) {
-            return array_key_exists($key, $this->storage['now']) ? $this->storage['now'][$key] : null;
-        }
-        return $this->storage['now'];
+        return match ($key) {
+            null => $this->storage['now'],
+            default => $this->storage['now'][$key] ?? null,
+        };
     }
 }
